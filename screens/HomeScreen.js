@@ -5,27 +5,42 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
-  ScrollView,
 } from "react-native";
 import SafeAreaView from "../components/SafeAreaView/SafeAreaView";
 import Icon from "react-native-vector-icons/AntDesign";
 import { useEffect, useState } from "react";
-import Animated, { FadeInDown } from "react-native-reanimated";
 import Categories from "../components/Categories/Categories";
+import Recipes from "../components/Recipes/Recipes";
 const HomeScreen = () => {
   const [foodTyps, setFoodtyps] = useState([]);
+  const [foodRecipes, setFoodRecipes] = useState([]);
   const [activeCategory, setActiveCategory] = useState("");
-  console.log(foodTyps);
+
   const url = "https://www.themealdb.com/api/json/v1/1/categories.php";
+
+  const URL = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${activeCategory}`;
+
   const fetchCatygys = async () => {
     const response = await fetch(url);
     const data = await response.json();
     setFoodtyps(data.categories);
     setActiveCategory(data.categories[0].strCategory);
   };
+
+  const fetchCatyryRecipes = async () => {
+    const response = await fetch(URL);
+    const data = await response.json();
+    setFoodRecipes(data.meals);
+  };
+
   useEffect(() => {
     fetchCatygys();
   }, []);
+  useEffect(()=>{
+    console.log(activeCategory,1)
+    fetchCatyryRecipes()
+  },[activeCategory])
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.IconBlock}>
@@ -48,14 +63,12 @@ const HomeScreen = () => {
           <Icon style={styles.search1} size={22} name="search1" />
         </TouchableOpacity>
       </View>
-        <Categories
-          foodTyps={foodTyps}
-          setActiveCategory={setActiveCategory}
-          activeCategory={activeCategory}
-        />
-      <View style={styles.RecipesBlock}>
-        <Text>Recipes</Text>
-      </View>
+      <Categories
+        foodTyps={foodTyps}
+        setActiveCategory={setActiveCategory}
+        activeCategory={activeCategory}
+      />
+        <Recipes foodRecipes={foodRecipes}/>
     </SafeAreaView>
   );
 };
@@ -132,7 +145,4 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
 
-  RecipesBlock: {
-    height: 450,
-  },
 });

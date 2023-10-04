@@ -6,7 +6,8 @@ const Categories = ({ foodTyps, setActiveCategory, activeCategory }) => {
   const onPress = (name) => {
     setActiveCategory(name);
   };
-  console.log(activeCategory)
+  console.log(foodTyps)
+
   return (
     <Animated.ScrollView
       horizontal
@@ -14,14 +15,17 @@ const Categories = ({ foodTyps, setActiveCategory, activeCategory }) => {
       entering={FadeInDown.duration(1000)}
     >
       {foodTyps.map((meal) => {
-          const backgroundColor = activeCategory !== meal.strCategory ?  "rgba(0,0,0,0.1)": "orange"
+        const backgroundColor =
+          activeCategory !== meal.strCategory ? "rgba(0,0,0,0.1)" : "orange";
         return (
           <TouchableOpacity
-            onPress={()=>{onPress(meal.strCategory)}}
+            onPress={() => {
+              onPress(meal.strCategory);
+            }}
             key={meal.idCategory}
             style={[styles.foods]}
           >
-            <View style={[styles.avatarsMealBlock,{backgroundColor}]}>
+            <View style={[styles.avatarsMealBlock, { backgroundColor }]}>
               <Image
                 style={styles.avatarsMeal}
                 source={{ uri: meal.strCategoryThumb }}
