@@ -7,10 +7,12 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React from "react";
+import { useNavigation } from "@react-navigation/native";
 
 const Recipes = ({ foodRecipes }) => {
+  const navigation = useNavigation()
     const onPress =()=>{
-
+      navigation.navigate('RecipeDetail')
     }
     console.log(foodRecipes)
   return (
@@ -29,7 +31,7 @@ const Recipes = ({ foodRecipes }) => {
               style={styles.avatarsMeall}
               source={{ uri: item.strMealThumb }}
             />
-            <Text style={styles.RecipesSubTitle}>{item.strMeal}</Text>
+            <Text numberOfLines={1} style={styles.RecipesSubTitle}>{item.strMeal}</Text>
           </TouchableOpacity>
         )}
         style={styles.RecipesBlockIn}
@@ -43,7 +45,8 @@ export default Recipes;
 const styles = StyleSheet.create({
   RecipesBlock: {
     width: "90%",
-    paddingTop: 15,
+    position:'relative',
+    top:15
   },
   RecipesBlockIn: {
     height: 450,
@@ -65,6 +68,6 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
   },
   RecipesSubTitle: {
-    fontSize: 10,
+    fontSize: 15,
   },
 });

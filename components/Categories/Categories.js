@@ -6,9 +6,8 @@ const Categories = ({ foodTyps, setActiveCategory, activeCategory }) => {
   const onPress = (name) => {
     setActiveCategory(name);
   };
-  console.log(foodTyps)
 
-  return (
+  return ( 
     <Animated.ScrollView
       horizontal
       style={styles.foodsScroll}
@@ -31,7 +30,7 @@ const Categories = ({ foodTyps, setActiveCategory, activeCategory }) => {
                 source={{ uri: meal.strCategoryThumb }}
               />
             </View>
-            <Text>{meal.strCategory}</Text>
+            <Text style={styles.avatarsText}>{meal.strCategory}</Text>
           </TouchableOpacity>
         );
       })}
@@ -44,7 +43,7 @@ export default Categories;
 const styles = StyleSheet.create({
   foods: {
     alignItems: "center",
-    padding: 5,
+    paddingLeft:15
   },
   avatarsMealBlock: {
     padding: 5,
@@ -56,7 +55,9 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   foodsScroll: {
-    width: "95%",
     marginTop: 10,
+    paddingLeft:10
   },
+  avatarsText:{
+  }
 });
