@@ -15,31 +15,52 @@ const HomeScreen = () => {
   const [foodTyps, setFoodtyps] = useState([]);
   const [foodRecipes, setFoodRecipes] = useState([]);
   const [activeCategory, setActiveCategory] = useState("");
-
+  const [masterDataSource, setMasterDataSource] = useState([]);
   const url = "https://www.themealdb.com/api/json/v1/1/categories.php";
 
-  const URL = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${activeCategory}`;
-
+  const [input,SetInput]=useState('')
+  console.log(masterDataSource)
   const fetchCatygys = async () => {
     const response = await fetch(url);
     const data = await response.json();
     setFoodtyps(data.categories);
     setActiveCategory(data.categories[0].strCategory);
   };
-
-  const fetchCatyryRecipes = async () => {
+  const fetchCatyryRecipes = async (activeCategory) => {
+    const URL = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${activeCategory}`;
     const response = await fetch(URL);
     const data = await response.json();
     setFoodRecipes(data.meals);
+    setMasterDataSource(data.meals)
+  };
+  useEffect(()=>{
+    console.log(activeCategory,1)
+    fetchCatyryRecipes(activeCategory)
+  },[activeCategory])
+  const onPress=()=>{
+
+  }
+  const searchFilterFunction = (text) => {
+    if (text) {
+      const newData = foodRecipes.filter(
+        function (item) {
+          const itemData = item.strMeal
+            ? item.strMeal.toUpperCase()
+            : ''.toUpperCase();
+          const textData = text.toUpperCase();
+          return itemData.indexOf(textData) > -1;
+      });
+      setMasterDataSource(newData);
+      SetInput(text);
+    } else {
+      setMasterDataSource(foodRecipes);
+      SetInput(text);
+    }
   };
 
   useEffect(() => {
     fetchCatygys();
   }, []);
-  useEffect(()=>{
-    console.log(activeCategory,1)
-    fetchCatyryRecipes()
-  },[activeCategory])
 
   return (
     <SafeAreaView style={styles.container}>
@@ -58,8 +79,8 @@ const HomeScreen = () => {
         </Text>
       </View>
       <View style={styles.InputBlock}>
-        <TextInput placeholder="Search any recipe" style={styles.TextInput} />
-        <TouchableOpacity style={styles.TouchableOpacity}>
+        <TextInput value={input} onChangeText={(text) => searchFilterFunction(text)}  placeholder="Search any recipe" style={styles.TextInput} />
+        <TouchableOpacity onPress={onPress} style={styles.TouchableOpacity}>
           <Icon style={styles.search1} size={22} name="search1" />
         </TouchableOpacity>
       </View>
@@ -68,7 +89,7 @@ const HomeScreen = () => {
         setActiveCategory={setActiveCategory}
         activeCategory={activeCategory}
       />
-        <Recipes foodRecipes={foodRecipes}/>
+        <Recipes masterDataSource={masterDataSource}/>
     </SafeAreaView>
   );
 };

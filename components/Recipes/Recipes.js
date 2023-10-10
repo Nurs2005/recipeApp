@@ -9,18 +9,18 @@ import {
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 
-const Recipes = ({ foodRecipes }) => {
+const Recipes = ({ masterDataSource }) => {
   const navigation = useNavigation()
-    const onPress =()=>{
+    const onPress =(id)=>{
       navigation.navigate('RecipeDetail')
     }
-    console.log(foodRecipes)
+    console.log(masterDataSource)
   return (
     <View style={styles.RecipesBlock}>
       <Text style={styles.RecipesText}>Recipes</Text>
       <FlatList
         numColumns={2}
-        data={foodRecipes}
+        data={masterDataSource}
         renderItem={({ item }) => (
           <TouchableOpacity 
           style={styles.imgBlock}

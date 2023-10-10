@@ -63,7 +63,7 @@ const RecipeDetailScreen = ({  }) => {
     dateModified: null,
   };
   return (
-    <SafeAreaView style={styles.recipeDetailBlock}>
+     <ScrollView style={styles.recipeDetailBlockIn}>
       <Image style={styles.avatarsMeall} source={{ uri: recipe.strMealThumb }} />
       <View style={styles.recipeDetailBlockText}>
         <View style={styles.recipeDetailBlockTextIn}>
@@ -93,29 +93,40 @@ const RecipeDetailScreen = ({  }) => {
           </View>
         </View>
       </View>
-      <Text>Ingrediants</Text>
-      <ScrollView>
+      <ScrollView style={styles.ingrediantsBlock}>
+      <Text style={styles.ingrediantsBlockText}>Ingrediants</Text>
+    {[...Array(20).keys()].map((index) => {
+      if(recipe[`strIngredient${index + 1}`]){
+        return (
           <View style={styles.ingrediants}>
-            <Text>. <Text>1kg</Text ><Text>Beef</Text></Text>
+          <View style={styles.ingrediantsMini}></View>
+          <Text style={styles.ingrediantsText}>{recipe[`strMeasure${index +1}`]}</Text>
+          <Text>{recipe[`strIngredient${index +1}`]}</Text>
           </View>
+        );
+      }
+      })}
       </ScrollView>
-    </SafeAreaView>
+      <Text style={styles.InstractionsText}>Instractions</Text>
+      <View style={styles.Instractions}>
+        <Text >{recipe.strInstructions}</Text>
+      </View>
+      </ScrollView>
   );
 };
 export default RecipeDetailScreen;
 const styles = StyleSheet.create({
-  recipeDetailBlock:{
-    height:'100%',
-    alignItems:'center'
+  recipeDetailBlockIn:{
+    width:'100%',
   },
   avatarsMeall: {
     alignSelf:'center',
-    width: "98%",
+    width: "100%",
     height: 400,
     borderRadius: 30,
   },
   recipeDetailBlockText:{
-    width:'92%',
+    width:'100%',
     marginTop:20,
     alignItems:'center'
   },
@@ -154,10 +165,41 @@ const styles = StyleSheet.create({
   recipeDetailBlockTextIn:{
     width:'100%',
     marginTop:10,
+    marginLeft:15,
     marginBottom:15,
   },
   ingrediants:{
     flexDirection:'row',
-    paddingLeft:15
+    paddingLeft:15,
+    paddingTop:10
+  },
+  ingrediantsMini:{
+    width:20,
+    height:20,
+    backgroundColor:'orange',
+    borderRadius:50,
+  },
+  ingrediantsText:{
+    paddingRight:13,
+    marginLeft:10,
+    fontWeight:'500'
+  },
+  ingrediantsBlock:{
+    width:'100%'
+  },
+  ingrediantsBlockText:{
+    paddingLeft:15,
+    fontSize:18,
+    fontWeight:'600'
+  },
+  Instractions:{
+    width:'100%',
+    padding:10
+  },
+  InstractionsText:{
+    paddingTop:10,
+    paddingLeft:15,
+    fontSize:18,
+    fontWeight:'600'
   }
 });
