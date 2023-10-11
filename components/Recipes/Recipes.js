@@ -11,9 +11,6 @@ import { useNavigation } from "@react-navigation/native";
 
 const Recipes = ({ masterDataSource }) => {
   const navigation = useNavigation()
-    const onPress =(id)=>{
-      navigation.navigate('RecipeDetail')
-    }
     console.log(masterDataSource)
   return (
     <View style={styles.RecipesBlock}>
@@ -24,7 +21,7 @@ const Recipes = ({ masterDataSource }) => {
         renderItem={({ item }) => (
           <TouchableOpacity 
           style={styles.imgBlock}
-          onPress={onPress}
+          onPress={() => navigation.navigate('RecipeDetail', { key: item.idMeal })}
           id={item.idMeal}
           >
             <Image
